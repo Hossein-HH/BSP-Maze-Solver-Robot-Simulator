@@ -91,15 +91,40 @@ List<int> indexToOffset(int index) {
   return [index ~/ 10, index % 10];
 }
 
-Color? getCellsColor(index) {
+Color? getMazeCellsColor(index) {
   switch (maze[indexToOffset(index)[0]][indexToOffset(index)[1]]) {
     case 0:
+      // 0 is empty
       return Colors.white;
     case 1:
+      // 1 is start
       return Colors.black;
-    default:
+    case -2:
       // -2 is start
-      // 2 is goal
       return Colors.red;
+    case 2:
+      // 2 is goal
+      return Colors.green;
+    default:
+      return Colors.purple;
+  }
+}
+
+Color? getBotMazeCellsColor(index) {
+  switch (botMaze[indexToOffset(index)[0]][indexToOffset(index)[1]]) {
+    case -1:
+      // -1 is unknown
+      return Colors.grey;
+    case 0:
+      // 0 is empty
+      return Colors.white;
+    case 1:
+      // 1 is wall
+      return Colors.black;
+    case 2:
+      // 2 is goal
+      return Colors.green;
+    default:
+      return Colors.purple;
   }
 }

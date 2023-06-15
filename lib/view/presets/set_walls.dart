@@ -46,7 +46,7 @@ class _SetWallsState extends State<SetWalls> {
                     children: List.generate(100, (index) {
                       return Container(
                         decoration: BoxDecoration(
-                          color: getCellsColor(index),
+                          color: getMazeCellsColor(index),
                           border: calculateBorderForCells(index),
                           borderRadius: calculateBorderRaduisForCorners(index),
                         ),
