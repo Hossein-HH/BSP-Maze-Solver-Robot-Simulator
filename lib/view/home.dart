@@ -13,6 +13,19 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    // Future.delayed(const Duration(seconds: 3), () => mazeSolver(setState));
+
+    print("start solving maze");
+
+    List vis = solveMaze();
+
+    for (int i = 0; i < vis.length; i++) {
+      print(vis[i]);
+      print("-------------------------------");
+    }
+
+    print("end solving maze");
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -40,9 +53,11 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: Center(
                           child: GridView.count(
-                              shrinkWrap: true,
-                              crossAxisCount: 10,
-                              children: List.generate(100, (index) {
+                            shrinkWrap: true,
+                            crossAxisCount: 10,
+                            children: List.generate(
+                              100,
+                              (index) {
                                 return Container(
                                   decoration: BoxDecoration(
                                     color: getBotMazeCellsColor(index),
@@ -59,8 +74,9 @@ class _HomeState extends State<Home> {
                                     ),
                                     onTap: () {
                                       List<int> offset = indexToOffset(index);
-                                      if (maze[offset[0]][offset[1]] == 0) {
-                                        maze[offset[0]][offset[1]] = 1;
+                                      if (maze[offset[0]][offset[1]].value ==
+                                          0) {
+                                        maze[offset[0]][offset[1]].value = 1;
                                         setState(() {});
                                       } else {
                                         Get.snackbar(
@@ -77,63 +93,66 @@ class _HomeState extends State<Home> {
                                     },
                                   ),
                                 );
-                              })),
+                              },
+                            ),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  Column(
-                    children: [
-                      const Text("مسیر بهینه تا نقطه فعلی"),
-                      const SizedBox(height: 10),
-                      Container(
-                        height: screenHeight * 0.35,
-                        width: screenWidth * 0.2,
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Center(
-                          child: GridView.count(
-                              shrinkWrap: true,
-                              crossAxisCount: 10,
-                              children: List.generate(100, (index) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color: getMazeCellsColor(index),
-                                    border: calculateBorderForCells(index),
-                                    borderRadius:
-                                        calculateBorderRaduisForCorners(index),
-                                  ),
-                                  child: InkWell(
-                                    customBorder: RoundedRectangleBorder(
-                                      borderRadius:
-                                          calculateBorderRaduisForCorners(
-                                                  index) ??
-                                              BorderRadius.circular(0),
-                                    ),
-                                    onTap: () {
-                                      List<int> offset = indexToOffset(index);
-                                      if (maze[offset[0]][offset[1]] == 0) {
-                                        maze[offset[0]][offset[1]] = 1;
-                                        setState(() {});
-                                      } else {
-                                        Get.snackbar(
-                                          "خطا",
-                                          "در نقطه شروع و نقطه هدف امکان قرار دادن دیوار وجود ندارد",
-                                          backgroundColor: Colors.red,
-                                          colorText: Colors.white,
-                                          icon: const Icon(
-                                            Icons.warning_amber_rounded,
-                                            color: Colors.white,
-                                          ),
-                                        );
-                                      }
-                                    },
-                                  ),
-                                );
-                              })),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Column(
+                  //   children: [
+                  //     const Text("مسیر بهینه تا نقطه فعلی"),
+                  //     const SizedBox(height: 10),
+                  //     Container(
+                  //       height: screenHeight * 0.35,
+                  //       width: screenWidth * 0.2,
+                  //       padding: const EdgeInsets.symmetric(horizontal: 5),
+                  //       child: Center(
+                  //         child: GridView.count(
+                  //             shrinkWrap: true,
+                  //             crossAxisCount: 10,
+                  //             children: List.generate(100, (index) {
+                  //               return Container(
+                  //                 decoration: BoxDecoration(
+                  //                   color: getMazeCellsColor(index),
+                  //                   border: calculateBorderForCells(index),
+                  //                   borderRadius:
+                  //                       calculateBorderRaduisForCorners(index),
+                  //                 ),
+                  //                 child: InkWell(
+                  //                   customBorder: RoundedRectangleBorder(
+                  //                     borderRadius:
+                  //                         calculateBorderRaduisForCorners(
+                  //                                 index) ??
+                  //                             BorderRadius.circular(0),
+                  //                   ),
+                  //                   onTap: () {
+                  //                     List<int> offset = indexToOffset(index);
+                  //                     if (maze[offset[0]][offset[1]].value ==
+                  //                         0) {
+                  //                       maze[offset[0]][offset[1]].value = 1;
+                  //                       setState(() {});
+                  //                     } else {
+                  //                       Get.snackbar(
+                  //                         "خطا",
+                  //                         "در نقطه شروع و نقطه هدف امکان قرار دادن دیوار وجود ندارد",
+                  //                         backgroundColor: Colors.red,
+                  //                         colorText: Colors.white,
+                  //                         icon: const Icon(
+                  //                           Icons.warning_amber_rounded,
+                  //                           color: Colors.white,
+                  //                         ),
+                  //                       );
+                  //                     }
+                  //                   },
+                  //                 ),
+                  //               );
+                  //             })),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
               Column(
@@ -165,31 +184,46 @@ class _HomeState extends State<Home> {
                                 borderRadius:
                                     calculateBorderRaduisForCorners(index),
                               ),
-                              child: InkWell(
-                                customBorder: RoundedRectangleBorder(
-                                  borderRadius:
-                                      calculateBorderRaduisForCorners(index) ??
-                                          BorderRadius.circular(0),
-                                ),
-                                onTap: () {
-                                  List<int> offset = indexToOffset(index);
-                                  if (maze[offset[0]][offset[1]] == 0) {
-                                    maze[offset[0]][offset[1]] = 1;
-                                    setState(() {});
-                                  } else {
-                                    Get.snackbar(
-                                      "خطا",
-                                      "در نقطه شروع و نقطه هدف امکان قرار دادن دیوار وجود ندارد",
-                                      backgroundColor: Colors.red,
-                                      colorText: Colors.white,
-                                      icon: const Icon(
-                                        Icons.warning_amber_rounded,
-                                        color: Colors.white,
+                              child: maze[indexToOffset(index)[0]]
+                                              [indexToOffset(index)[1]]
+                                          .isBotHere ==
+                                      true
+                                  ? Container(
+                                      margin: const EdgeInsets.all(5),
+                                      height: screenHeight * 0.35,
+                                      width: screenWidth * 0.2,
+                                      decoration: BoxDecoration(
+                                          color: Colors.orange,
+                                          borderRadius:
+                                              BorderRadius.circular(25)),
+                                    )
+                                  : InkWell(
+                                      customBorder: RoundedRectangleBorder(
+                                        borderRadius:
+                                            calculateBorderRaduisForCorners(
+                                                    index) ??
+                                                BorderRadius.circular(0),
                                       ),
-                                    );
-                                  }
-                                },
-                              ),
+                                      onTap: () {
+                                        List<int> offset = indexToOffset(index);
+                                        if (maze[offset[0]][offset[1]].value ==
+                                            0) {
+                                          maze[offset[0]][offset[1]].value = 1;
+                                          setState(() {});
+                                        } else {
+                                          Get.snackbar(
+                                            "خطا",
+                                            "در نقطه شروع و نقطه هدف امکان قرار دادن دیوار وجود ندارد",
+                                            backgroundColor: Colors.red,
+                                            colorText: Colors.white,
+                                            icon: const Icon(
+                                              Icons.warning_amber_rounded,
+                                              color: Colors.white,
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    ),
                             );
                           })),
                     ),

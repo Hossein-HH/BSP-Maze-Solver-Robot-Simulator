@@ -48,7 +48,7 @@ class SetGoal extends StatelessWidget {
                             ),
                             onTap: () {
                               List<int> offset = indexToOffset(index);
-                              maze[offset[0]][offset[1]] = 2;
+                              maze[offset[0]][offset[1]].value = 2;
                               Get.offNamed('/setWalls');
                             },
                             child: Center(child: Text(index.toString())),

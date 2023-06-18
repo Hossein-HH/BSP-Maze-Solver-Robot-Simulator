@@ -14,8 +14,8 @@ class SetStart extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Container(
           alignment: Alignment.centerRight,
-          child:
-              const Text("تعیین نقطه شروع", style: TextStyle(color: Colors.black54)),
+          child: const Text("تعیین نقطه شروع",
+              style: TextStyle(color: Colors.black54)),
         ),
       ),
       body: Column(
@@ -48,8 +48,8 @@ class SetStart extends StatelessWidget {
                           ),
                           onTap: () {
                             List<int> offset = indexToOffset(index);
-                            botMaze[offset[0]][offset[1]] = 0;
-                            maze[offset[0]][offset[1]] = -2;
+                            botMaze[offset[0]][offset[1]].value = 0;
+                            maze[offset[0]][offset[1]].value = -2;
                             Get.offNamed('/setGoal');
                           },
                           child: Center(child: Text(index.toString())),

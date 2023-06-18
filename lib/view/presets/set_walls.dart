@@ -58,8 +58,8 @@ class _SetWallsState extends State<SetWalls> {
                           ),
                           onTap: () {
                             List<int> offset = indexToOffset(index);
-                            if (maze[offset[0]][offset[1]] == 0) {
-                              maze[offset[0]][offset[1]] = 1;
+                            if (maze[offset[0]][offset[1]].value == 0) {
+                              maze[offset[0]][offset[1]].value = 1;
                               setState(() {});
                             } else {
                               Get.snackbar(
