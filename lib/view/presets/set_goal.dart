@@ -14,8 +14,8 @@ class SetGoal extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           title: Container(
             alignment: Alignment.centerRight,
-            child:
-                const Text("تعیین نقطه هدف", style: TextStyle(color: Colors.black54)),
+            child: const Text("تعیین نقطه هدف",
+                style: TextStyle(color: Colors.black54)),
           ),
         ),
         body: Column(
@@ -26,7 +26,7 @@ class SetGoal extends StatelessWidget {
             Expanded(
               flex: 9,
               child: Container(
-                height: screenHeight * 0.7,
+                height: screenHeight * 0.8,
                 width: screenWidth * 0.4,
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Center(
@@ -37,15 +37,8 @@ class SetGoal extends StatelessWidget {
                         return Container(
                           decoration: BoxDecoration(
                             border: calculateBorderForCells(index),
-                            borderRadius:
-                                calculateBorderRaduisForCorners(index),
                           ),
                           child: InkWell(
-                            customBorder: RoundedRectangleBorder(
-                              borderRadius:
-                                  calculateBorderRaduisForCorners(index) ??
-                                      BorderRadius.circular(0),
-                            ),
                             onTap: () {
                               List<int> offset = indexToOffset(index);
                               maze[offset[0]][offset[1]].value = 2;

@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import '../utils/utils.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  Home({super.key}) {
+    solveMaze();
+  }
 
   @override
   State<Home> createState() => _HomeState();
@@ -13,226 +15,178 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    // Future.delayed(const Duration(seconds: 3), () => mazeSolver(setState));
-
-    print("start solving maze");
-
-    List vis = solveMaze();
-
-    for (int i = 0; i < vis.length; i++) {
-      print(vis[i]);
-      print("-------------------------------");
-    }
-
-    print("end solving maze");
-
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Container(
-            alignment: Alignment.centerRight,
-            child:
-                const Text("ساخت ماز", style: TextStyle(color: Colors.black54)),
-          ),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Container(
+          alignment: Alignment.centerRight,
+          child:
+              const Text("ساخت ماز", style: TextStyle(color: Colors.black54)),
         ),
-        body: Container(
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      const Text("درک ربات از محیط"),
-                      const SizedBox(height: 10),
-                      Container(
-                        height: screenHeight * 0.35,
-                        width: screenWidth * 0.2,
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Center(
-                          child: GridView.count(
-                            shrinkWrap: true,
-                            crossAxisCount: 10,
-                            children: List.generate(
-                              100,
-                              (index) {
-                                return Container(
+        leading: IconButton(
+          onPressed: () {
+            resetMaze();
+            Get.offNamed('/splash');
+          },
+          icon: const Icon(Icons.restart_alt_rounded),
+          color: Colors.black54,
+        ),
+      ),
+      body: Container(
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  children: [
+                    const Row(
+                      children: [
+                        // ColorGuide(title: "مسیر طی شده", color: Colors.orange),
+                        ColorGuide(title: "خانه ناشناخته", color: Colors.grey),
+                        ColorGuide(title: "هدف", color: Colors.green),
+                        ColorGuide(title: "شروع", color: Colors.blue),
+                        ColorGuide(title: "دیوار", color: Colors.black),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      height: screenHeight * 0.4,
+                      width: screenWidth * 0.2,
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Center(
+                        child: GridView.count(
+                          shrinkWrap: true,
+                          crossAxisCount: 10,
+                          children: List.generate(
+                            100,
+                            (index) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: getBotMazeCellsColor(index),
+                                  border: calculateBorderForCells(index),
+                                ),
+                                child: Container(
+                                  height: 1,
+                                  width: 1,
+                                  margin: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
-                                    color: getBotMazeCellsColor(index),
-                                    border: calculateBorderForCells(index),
-                                    borderRadius:
-                                        calculateBorderRaduisForCorners(index),
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: botMaze[indexToOffset(index)[0]]
+                                                [indexToOffset(index)[1]]
+                                            .isBotHere
+                                        ? Colors.orange
+                                        : Colors.transparent,
                                   ),
-                                  child: InkWell(
-                                    customBorder: RoundedRectangleBorder(
-                                      borderRadius:
-                                          calculateBorderRaduisForCorners(
-                                                  index) ??
-                                              BorderRadius.circular(0),
-                                    ),
-                                    onTap: () {
-                                      List<int> offset = indexToOffset(index);
-                                      if (maze[offset[0]][offset[1]].value ==
-                                          0) {
-                                        maze[offset[0]][offset[1]].value = 1;
-                                        setState(() {});
-                                      } else {
-                                        Get.snackbar(
-                                          "خطا",
-                                          "در نقطه شروع و نقطه هدف امکان قرار دادن دیوار وجود ندارد",
-                                          backgroundColor: Colors.red,
-                                          colorText: Colors.white,
-                                          icon: const Icon(
-                                            Icons.warning_amber_rounded,
-                                            color: Colors.white,
-                                          ),
-                                        );
-                                      }
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                  // Column(
-                  //   children: [
-                  //     const Text("مسیر بهینه تا نقطه فعلی"),
-                  //     const SizedBox(height: 10),
-                  //     Container(
-                  //       height: screenHeight * 0.35,
-                  //       width: screenWidth * 0.2,
-                  //       padding: const EdgeInsets.symmetric(horizontal: 5),
-                  //       child: Center(
-                  //         child: GridView.count(
-                  //             shrinkWrap: true,
-                  //             crossAxisCount: 10,
-                  //             children: List.generate(100, (index) {
-                  //               return Container(
-                  //                 decoration: BoxDecoration(
-                  //                   color: getMazeCellsColor(index),
-                  //                   border: calculateBorderForCells(index),
-                  //                   borderRadius:
-                  //                       calculateBorderRaduisForCorners(index),
-                  //                 ),
-                  //                 child: InkWell(
-                  //                   customBorder: RoundedRectangleBorder(
-                  //                     borderRadius:
-                  //                         calculateBorderRaduisForCorners(
-                  //                                 index) ??
-                  //                             BorderRadius.circular(0),
-                  //                   ),
-                  //                   onTap: () {
-                  //                     List<int> offset = indexToOffset(index);
-                  //                     if (maze[offset[0]][offset[1]].value ==
-                  //                         0) {
-                  //                       maze[offset[0]][offset[1]].value = 1;
-                  //                       setState(() {});
-                  //                     } else {
-                  //                       Get.snackbar(
-                  //                         "خطا",
-                  //                         "در نقطه شروع و نقطه هدف امکان قرار دادن دیوار وجود ندارد",
-                  //                         backgroundColor: Colors.red,
-                  //                         colorText: Colors.white,
-                  //                         icon: const Icon(
-                  //                           Icons.warning_amber_rounded,
-                  //                           color: Colors.white,
-                  //                         ),
-                  //                       );
-                  //                     }
-                  //                   },
-                  //                 ),
-                  //               );
-                  //             })),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Row(
-                    children: [
-                      ColorGuide(title: "مسیر بهینه", color: Colors.orange),
-                      ColorGuide(title: "خانه ناشناخته", color: Colors.grey),
-                      ColorGuide(title: "هدف", color: Colors.green),
-                      ColorGuide(title: "شروع", color: Colors.red),
-                      ColorGuide(title: "دیوار", color: Colors.black),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    height: screenHeight * 0.7,
-                    width: screenWidth * 0.4,
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Center(
-                      child: GridView.count(
-                          shrinkWrap: true,
-                          crossAxisCount: 10,
-                          children: List.generate(100, (index) {
-                            return Container(
+                    ),
+                    const SizedBox(height: 10),
+                    const Text("درک ربات از محیط"),
+                  ],
+                ),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Row(
+                  children: [
+                    ColorGuide(title: "هدف", color: Colors.green),
+                    ColorGuide(title: "شروع", color: Colors.blue),
+                    ColorGuide(title: "دیوار", color: Colors.black),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Container(
+                  height: screenHeight * 0.8,
+                  width: screenWidth * 0.4,
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Center(
+                    child: GridView.count(
+                        shrinkWrap: true,
+                        crossAxisCount: 10,
+                        children: List.generate(100, (index) {
+                          return Container(
                               decoration: BoxDecoration(
                                 color: getMazeCellsColor(index),
                                 border: calculateBorderForCells(index),
-                                borderRadius:
-                                    calculateBorderRaduisForCorners(index),
                               ),
-                              child: maze[indexToOffset(index)[0]]
+                              child: Container(
+                                height: 1,
+                                width: 1,
+                                margin: const EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(25),
+                                  color: botMaze[indexToOffset(index)[0]]
                                               [indexToOffset(index)[1]]
-                                          .isBotHere ==
-                                      true
-                                  ? Container(
-                                      margin: const EdgeInsets.all(5),
-                                      height: screenHeight * 0.35,
-                                      width: screenWidth * 0.2,
-                                      decoration: BoxDecoration(
-                                          color: Colors.orange,
-                                          borderRadius:
-                                              BorderRadius.circular(25)),
-                                    )
-                                  : InkWell(
-                                      customBorder: RoundedRectangleBorder(
-                                        borderRadius:
-                                            calculateBorderRaduisForCorners(
-                                                    index) ??
-                                                BorderRadius.circular(0),
-                                      ),
-                                      onTap: () {
-                                        List<int> offset = indexToOffset(index);
-                                        if (maze[offset[0]][offset[1]].value ==
-                                            0) {
-                                          maze[offset[0]][offset[1]].value = 1;
-                                          setState(() {});
-                                        } else {
-                                          Get.snackbar(
-                                            "خطا",
-                                            "در نقطه شروع و نقطه هدف امکان قرار دادن دیوار وجود ندارد",
-                                            backgroundColor: Colors.red,
-                                            colorText: Colors.white,
-                                            icon: const Icon(
-                                              Icons.warning_amber_rounded,
-                                              color: Colors.white,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                    ),
-                            );
-                          })),
-                    ),
+                                          .isBotHere
+                                      ? Colors.orange
+                                      : Colors.transparent,
+                                ),
+                              ));
+                        })),
                   ),
-                ],
-              ),
-            ],
-          ),
-        ));
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            if (step != 0) {
+              botMaze[path[step - 1].row][path[step - 1].col].isBotHere = false;
+              maze[path[step - 1].row][path[step - 1].col].isBotHere = false;
+            }
+            if (step + 1 < path.length) {
+              botMaze[path[step].row][path[step].col].isBotHere = true;
+              maze[path[step].row][path[step].col].isBotHere = false;
+
+              botMaze[path[step].row][path[step].col].isVisited = true;
+              botMaze[path[step].row][path[step].col].value =
+                  maze[path[step].row][path[step].col].value;
+
+              if (wallSeenSteps.first.step == step) {
+                botMaze[wallSeenSteps.first.cell.row]
+                        [wallSeenSteps.first.cell.col]
+                    .value = 1;
+                wallSeenSteps.removeAt(0);
+              }
+              step++;
+            } else {
+              Get.snackbar(
+                "اتمام موفق جستجو",
+                "هدف با موفقیت در سطر ${path[step - 1].row + 1} و ستون ${path[step - 1].col + 1} پیدا شد.",
+                backgroundColor: Colors.green,
+                colorText: Colors.white,
+                icon: const Icon(
+                  Icons.check_circle_rounded,
+                  color: Colors.white,
+                ),
+              );
+
+              botMaze[path[step].row][path[step].col].isBotHere = true;
+              maze[path[step].row][path[step].col].isBotHere = true;
+
+              botMaze[path[step].row][path[step].col].isVisited = true;
+              botMaze[path[step].row][path[step].col].value = 2;
+            }
+          });
+        },
+        child: const Icon(
+          Icons.next_plan_rounded,
+          color: Colors.black54,
+        ),
+      ),
+    );
   }
 }
 
@@ -250,9 +204,9 @@ class ColorGuide extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const SizedBox(width: 5),
+        const SizedBox(width: 10),
         Text(title, style: TextStyle(color: color)),
-        const SizedBox(width: 5),
+        const SizedBox(width: 10),
         Container(
           height: 10,
           width: 10,

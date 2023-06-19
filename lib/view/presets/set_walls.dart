@@ -36,7 +36,7 @@ class _SetWallsState extends State<SetWalls> {
           Expanded(
             flex: 9,
             child: Container(
-              height: screenHeight * 0.7,
+              height: screenHeight * 0.8,
               width: screenWidth * 0.4,
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: Center(
@@ -48,14 +48,8 @@ class _SetWallsState extends State<SetWalls> {
                         decoration: BoxDecoration(
                           color: getMazeCellsColor(index),
                           border: calculateBorderForCells(index),
-                          borderRadius: calculateBorderRaduisForCorners(index),
                         ),
                         child: InkWell(
-                          customBorder: RoundedRectangleBorder(
-                            borderRadius:
-                                calculateBorderRaduisForCorners(index) ??
-                                    BorderRadius.circular(0),
-                          ),
                           onTap: () {
                             List<int> offset = indexToOffset(index);
                             if (maze[offset[0]][offset[1]].value == 0) {

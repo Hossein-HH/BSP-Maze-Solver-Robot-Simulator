@@ -16,7 +16,7 @@ void main() {
         GetPage(name: '/setStart', page: () => const SetStart()),
         GetPage(name: '/setGoal', page: () => const SetGoal()),
         GetPage(name: '/setWalls', page: () => const SetWalls()),
-        GetPage(name: '/home', page: () => const Home()),
+        GetPage(name: '/home', page: () => Home()),
       ],
       theme: ThemeData(
         fontFamily: "IRANSansX",
