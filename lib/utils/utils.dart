@@ -230,3 +230,23 @@ void dfs(int row, int col, List<List<int>> visited) {
     }
   }
 }
+
+List<double> getCellSize() {
+  double scale = screenWidth / screenHeight;
+
+  if (scale > 0.6) {
+    return [screenHeight * 0.8, screenWidth * 0.4];
+  } else {
+    return [screenHeight * 0.4, screenWidth * 0.8];
+  }
+}
+
+bool isPhone() {
+  double scale = screenWidth / screenHeight;
+
+  if (scale > 0.6) {
+    return false;
+  } else {
+    return true;
+  }
+}

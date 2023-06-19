@@ -36,8 +36,8 @@ class _SetWallsState extends State<SetWalls> {
           Expanded(
             flex: 9,
             child: Container(
-              height: screenHeight * 0.8,
-              width: screenWidth * 0.4,
+              height: getCellSize()[0],
+              width: getCellSize()[1],
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: Center(
                 child: GridView.count(
@@ -55,7 +55,7 @@ class _SetWallsState extends State<SetWalls> {
                             if (maze[offset[0]][offset[1]].value == 0) {
                               maze[offset[0]][offset[1]].value = 1;
                               setState(() {});
-                            } else {
+                            } else if (maze[offset[0]][offset[1]].value != 1) {
                               Get.snackbar(
                                 "خطا",
                                 "در نقطه شروع و نقطه هدف امکان قرار دادن دیوار وجود ندارد",

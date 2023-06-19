@@ -26,8 +26,8 @@ class SetGoal extends StatelessWidget {
             Expanded(
               flex: 9,
               child: Container(
-                height: screenHeight * 0.8,
-                width: screenWidth * 0.4,
+                height: getCellSize()[0],
+                width: getCellSize()[1],
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Center(
                   child: GridView.count(

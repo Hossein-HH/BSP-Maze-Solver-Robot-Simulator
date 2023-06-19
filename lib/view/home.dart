@@ -34,110 +34,223 @@ class _HomeState extends State<Home> {
       ),
       body: Container(
         alignment: Alignment.center,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  children: [
-                    const Row(
-                      children: [
-                        // ColorGuide(title: "مسیر طی شده", color: Colors.orange),
-                        ColorGuide(title: "خانه ناشناخته", color: Colors.grey),
-                        ColorGuide(title: "هدف", color: Colors.green),
-                        ColorGuide(title: "شروع", color: Colors.blue),
-                        ColorGuide(title: "دیوار", color: Colors.black),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Container(
-                      height: screenHeight * 0.4,
-                      width: screenWidth * 0.2,
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Center(
-                        child: GridView.count(
-                          shrinkWrap: true,
-                          crossAxisCount: 10,
-                          children: List.generate(
-                            100,
-                            (index) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color: getBotMazeCellsColor(index),
-                                  border: calculateBorderForCells(index),
-                                ),
-                                child: Container(
-                                  height: 1,
-                                  width: 1,
-                                  margin: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: botMaze[indexToOffset(index)[0]]
-                                                [indexToOffset(index)[1]]
-                                            .isBotHere
-                                        ? Colors.orange
-                                        : Colors.transparent,
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
+        child: isPhone()
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ColorGuide(title: "هدف", color: Colors.green),
+                          ColorGuide(title: "شروع", color: Colors.blue),
+                          ColorGuide(title: "دیوار", color: Colors.black),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Container(
+                        height: screenHeight * 0.35,
+                        width: screenWidth * 0.5,
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Center(
+                          child: GridView.count(
+                              shrinkWrap: true,
+                              crossAxisCount: 10,
+                              children: List.generate(100, (index) {
+                                return Container(
+                                    decoration: BoxDecoration(
+                                      color: getMazeCellsColor(index),
+                                      border: calculateBorderForCells(index),
+                                    ),
+                                    child: Container(
+                                      height: 1,
+                                      width: 1,
+                                      margin: const EdgeInsets.all(3),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(25),
+                                        color: botMaze[indexToOffset(index)[0]]
+                                                    [indexToOffset(index)[1]]
+                                                .isBotHere
+                                            ? Colors.orange
+                                            : Colors.transparent,
+                                      ),
+                                    ));
+                              })),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text("درک ربات از محیط"),
-                  ],
-                ),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Row(
-                  children: [
-                    ColorGuide(title: "هدف", color: Colors.green),
-                    ColorGuide(title: "شروع", color: Colors.blue),
-                    ColorGuide(title: "دیوار", color: Colors.black),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  height: screenHeight * 0.8,
-                  width: screenWidth * 0.4,
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Center(
-                    child: GridView.count(
-                        shrinkWrap: true,
-                        crossAxisCount: 10,
-                        children: List.generate(100, (index) {
-                          return Container(
-                              decoration: BoxDecoration(
-                                color: getMazeCellsColor(index),
-                                border: calculateBorderForCells(index),
-                              ),
-                              child: Container(
-                                height: 1,
-                                width: 1,
-                                margin: const EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: botMaze[indexToOffset(index)[0]]
-                                              [indexToOffset(index)[1]]
-                                          .isBotHere
-                                      ? Colors.orange
-                                      : Colors.transparent,
-                                ),
-                              ));
-                        })),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // ColorGuide(title: "مسیر طی شده", color: Colors.orange),
+                              ColorGuide(
+                                  title: "خانه ناشناخته", color: Colors.grey),
+                              ColorGuide(title: "هدف", color: Colors.green),
+                              ColorGuide(title: "شروع", color: Colors.blue),
+                              ColorGuide(title: "دیوار", color: Colors.black),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            height: screenHeight * 0.25,
+                            width: screenWidth * 0.4,
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: Center(
+                              child: GridView.count(
+                                shrinkWrap: true,
+                                crossAxisCount: 10,
+                                children: List.generate(
+                                  100,
+                                  (index) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        color: getBotMazeCellsColor(index),
+                                        border: calculateBorderForCells(index),
+                                      ),
+                                      child: Container(
+                                        height: 1,
+                                        width: 1,
+                                        margin: const EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          color: botMaze[indexToOffset(
+                                                          index)[0]]
+                                                      [indexToOffset(index)[1]]
+                                                  .isBotHere
+                                              ? Colors.orange
+                                              : Colors.transparent,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          const Text("درک ربات از محیط"),
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          const Row(
+                            children: [
+                              // ColorGuide(title: "مسیر طی شده", color: Colors.orange),
+                              ColorGuide(
+                                  title: "خانه ناشناخته", color: Colors.grey),
+                              ColorGuide(title: "هدف", color: Colors.green),
+                              ColorGuide(title: "شروع", color: Colors.blue),
+                              ColorGuide(title: "دیوار", color: Colors.black),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            height: screenHeight * 0.4,
+                            width: screenWidth * 0.2,
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: Center(
+                              child: GridView.count(
+                                shrinkWrap: true,
+                                crossAxisCount: 10,
+                                children: List.generate(
+                                  100,
+                                  (index) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        color: getBotMazeCellsColor(index),
+                                        border: calculateBorderForCells(index),
+                                      ),
+                                      child: Container(
+                                        height: 1,
+                                        width: 1,
+                                        margin: const EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          color: botMaze[indexToOffset(
+                                                          index)[0]]
+                                                      [indexToOffset(index)[1]]
+                                                  .isBotHere
+                                              ? Colors.orange
+                                              : Colors.transparent,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          const Text("درک ربات از محیط"),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Row(
+                        children: [
+                          ColorGuide(title: "هدف", color: Colors.green),
+                          ColorGuide(title: "شروع", color: Colors.blue),
+                          ColorGuide(title: "دیوار", color: Colors.black),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Container(
+                        height: screenHeight * 0.8,
+                        width: screenWidth * 0.4,
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Center(
+                          child: GridView.count(
+                              shrinkWrap: true,
+                              crossAxisCount: 10,
+                              children: List.generate(100, (index) {
+                                return Container(
+                                    decoration: BoxDecoration(
+                                      color: getMazeCellsColor(index),
+                                      border: calculateBorderForCells(index),
+                                    ),
+                                    child: Container(
+                                      height: 1,
+                                      width: 1,
+                                      margin: const EdgeInsets.all(15),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(25),
+                                        color: botMaze[indexToOffset(index)[0]]
+                                                    [indexToOffset(index)[1]]
+                                                .isBotHere
+                                            ? Colors.orange
+                                            : Colors.transparent,
+                                      ),
+                                    ));
+                              })),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
