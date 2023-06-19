@@ -51,22 +51,27 @@ class _SetWallsState extends State<SetWalls> {
                         ),
                         child: InkWell(
                           onTap: () {
-                            List<int> offset = indexToOffset(index);
-                            if (maze[offset[0]][offset[1]].value == 0) {
-                              maze[offset[0]][offset[1]].value = 1;
-                              setState(() {});
-                            } else if (maze[offset[0]][offset[1]].value != 1) {
-                              Get.snackbar(
-                                "خطا",
-                                "در نقطه شروع و نقطه هدف امکان قرار دادن دیوار وجود ندارد",
-                                backgroundColor: Colors.red,
-                                colorText: Colors.white,
-                                icon: const Icon(
-                                  Icons.warning_amber_rounded,
-                                  color: Colors.white,
-                                ),
-                              );
-                            }
+                            setState(() {
+                              List<int> offset = indexToOffset(index);
+                              if (maze[offset[0]][offset[1]].value == 0) {
+                                maze[offset[0]][offset[1]].value = 1;
+                              } else {
+                                if (maze[offset[0]][offset[1]].value == 1) {
+                                  maze[offset[0]][offset[1]].value = 0;
+                                } else {
+                                  Get.snackbar(
+                                    "خطا",
+                                    "در نقطه شروع و نقطه هدف امکان قرار دادن دیوار وجود ندارد",
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.white,
+                                    icon: const Icon(
+                                      Icons.warning_amber_rounded,
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                }
+                              }
+                            });
                           },
                         ),
                       );

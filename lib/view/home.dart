@@ -23,14 +23,15 @@ class _HomeState extends State<Home> {
           child:
               const Text("ساخت ماز", style: TextStyle(color: Colors.black54)),
         ),
-        leading: IconButton(
-          onPressed: () {
-            resetMaze();
-            Get.offNamed('/splash');
-          },
-          icon: const Icon(Icons.restart_alt_rounded),
-          color: Colors.black54,
-        ),
+        // leading: IconButton(
+        //   onPressed: () {
+        //     step = 0;
+        //     resetMaze();
+        //     Get.offNamed('/splash');
+        //   },
+        //   icon: const Icon(Icons.restart_alt_rounded),
+        //   color: Colors.black54,
+        // ),
       ),
       body: Container(
         alignment: Alignment.center,
@@ -267,14 +268,15 @@ class _HomeState extends State<Home> {
               botMaze[path[step].row][path[step].col].value =
                   maze[path[step].row][path[step].col].value;
 
-              if (wallSeenSteps.first.step == step) {
+              if (wallSeenSteps.isNotEmpty &&
+                  wallSeenSteps.first.step == step) {
                 botMaze[wallSeenSteps.first.cell.row]
                         [wallSeenSteps.first.cell.col]
                     .value = 1;
                 wallSeenSteps.removeAt(0);
               }
               step++;
-            } else {
+            } else if (maze[path[step].row][path[step].col].value == 2) {
               Get.snackbar(
                 "اتمام موفق جستجو",
                 "هدف با موفقیت در سطر ${path[step - 1].row + 1} و ستون ${path[step - 1].col + 1} پیدا شد.",
@@ -291,6 +293,22 @@ class _HomeState extends State<Home> {
 
               botMaze[path[step].row][path[step].col].isVisited = true;
               botMaze[path[step].row][path[step].col].value = 2;
+            } else {
+              Get.snackbar(
+                "اتمام ناموفق جستجو",
+                "هدف در محیط یافت نشد.",
+                backgroundColor: Colors.red,
+                colorText: Colors.white,
+                icon: const Icon(
+                  Icons.error_rounded,
+                  color: Colors.white,
+                ),
+              );
+              botMaze[path[step].row][path[step].col].isBotHere = true;
+              maze[path[step].row][path[step].col].isBotHere = true;
+
+              botMaze[path[step].row][path[step].col].isVisited = true;
+              botMaze[path[step].row][path[step].col].value = 0;
             }
           });
         },
