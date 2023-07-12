@@ -1,4 +1,4 @@
-# maze_solver_robot_simulator
+# JUP-Maze-Solver-Robot-Simulator
 
 A new Flutter project.
 
