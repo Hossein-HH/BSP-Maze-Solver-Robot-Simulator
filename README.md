@@ -1,4 +1,4 @@
-# JUP-Maze-Solver-Robot-Simulator
+# BSP-Maze-Solver-Robot-Simulator
 
 A new Flutter project.
 
