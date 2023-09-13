@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains the code for a maze-solving robot simulator developed as a subproject for the Principles of Robotics course at Jahrom University under the guidance of Dr. Reza Maslenjad. The simulator is implemented in Dart programming language and the Flutter framework. It is designed to simulate a robot's navigation through mazes using online search algorithms, with a specific example utilizing the Depth-First Search (DFS) algorithm.
+This repository contains the code for a maze-solving robot simulator developed as a subproject for the Principles of Robotics course at Jahrom University under the guidance of Dr. Reza MosallaNezhad. The simulator is implemented in Dart programming language and the Flutter framework. It is designed to simulate a robot's navigation through mazes using online search algorithms, with a specific example utilizing the Depth-First Search (DFS) algorithm.
 
 ![](assets/demo.gif)
 
@@ -61,4 +61,4 @@ Contributions to this project are welcome. If you'd like to contribute, please f
 
 ## Acknowledgments
 
-- Dr. Reza Maslenjad and Jahrom University for their guidance and support.
+- Dr. Reza MosallaNezhad and Jahrom University for their guidance and support.
