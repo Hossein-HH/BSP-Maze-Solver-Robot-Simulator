@@ -6,6 +6,7 @@ This repository contains the code for a maze-solving robot simulator developed a
 
 Wait a bit for the corresponding gif file to be loaded into the software :
 <br>
+<br>
 ![](assets/demo.gif)
 
 ## Features
